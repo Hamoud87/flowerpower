@@ -1,50 +1,27 @@
-import { productArray } from "./constants/productsList.js";
-const productsContainer = document.querySelector(".section-featured ");
+const url = "https://www.madani.one/wp-json/wc/store/products";
 
-const shopCart = document.querySelector(".shop-cart");
-const proList = document.querySelector(".pro-list");
-const totalContainer = document.querySelector(".total");
-let cartArray = [];
-productArray.forEach(function (product) {
-  productsContainer.innerHTML += `
-  <section class="section-featured">
-   <div class="featured-products">
-   <img src="${product.image}"  class="image1" "alt="${product.alt}"  />
-          <div class="featured-products-detail">
-            <h2>${product.name}</h2>
-            <p>${product.price}</p>
-            <p>${product.description}</p>
-            <button class="cta-buy" data-product="${product.id}">BUY</button>
-          </div>
-        </div>
-        </section>
-   `;
-});
+const productContainer = document.querySelector(".products");
+async function getProducts() {
+  try {
+    const response = await fetch(url);
+    const getResults = await response.json();
+    createHTML(getResults);
+    console.log(getResults);
+  } catch (error) {
+    console.log(error);
+  }
+}
+getProducts();
 
-const buttons = document.querySelectorAll("button");
-buttons.forEach(function (button) {
-  button.onclick = function (event) {
-    const itemToAdd = productArray.find((item) => item.id === event.target.dataset.product);
-    cartArray.push(itemToAdd);
-    console.log(cartArray);
-    showShopCart(cartArray);
-    localStorage.setItem("proList", JSON.stringify(cartArray));
-  };
-});
-function showShopCart(cartItems) {
-  shopCart.style.display = "block";
-  proList.innerHTML = "";
-  let total = 0;
-  cartItems.forEach(function (cartElement) {
-    total = cartElement.price;
-    proList.innerHTML += `
-   
-      <div class="pro-list">
-      <h5>${cartElement.name}</h5>
-      <a href="specific-product.html"><img src="${cartElement.image}"  class="cart-image" "alt="${cartElement.alt}" /></a>
-      </div>
-     
-      `;
+function createHTML(products) {
+  products.forEach(function (product) {
+    productContainer.innerHTML += `<div class="product"><a href="details.html?id=${product.id}">
+           <div>
+           
+            <img src="${product.images[0].src}" alt="${product.name}">
+            <h4>${product.name}</h4>
+            <h4 class="pro-price">${product.price_html}</h4>
+            <div> </a>
+            </div>`;
   });
-  totalContainer.innerHTML = `Total: ${total} `;
 }
