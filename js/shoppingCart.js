@@ -8,13 +8,10 @@ cartItems.forEach(function (cartElement) {
 
     <div class="pro-list">
     <h5>${cartElement.name}</h5>
-    <a href="specific-product.html"> <img src="${cartElement.image}"  class="cart-image cart-thumbnail" "alt="${cartElement.alt}"  /></a>
+    <a href="details.html"> <img src="${cartElement.image}"  class="cart-image cart-thumbnail" "alt="${cartElement.alt}"  /></a>
  
     </div>
    
     `;
 });
 totalContainer.innerHTML = `Total: ${total}`;
-
-
-

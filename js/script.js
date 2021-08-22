@@ -1,6 +1,7 @@
-const url = "https://www.madani.one/wp-json/wc/store/products";
+const url = "https://www.madani.one/wp-json/wc/store/products?category=16";
 
 const productContainer = document.querySelector(".products");
+
 async function getProducts() {
   try {
     const response = await fetch(url);
@@ -15,13 +16,24 @@ getProducts();
 
 function createHTML(products) {
   products.forEach(function (product) {
-    productContainer.innerHTML += `<div class="product"><a href="details.html?id=${product.id}">
-           <div>
-           
-            <img src="${product.images[0].src}" alt="${product.name}">
-            <h4>${product.name}</h4>
-            <h4 class="pro-price">${product.price_html}</h4>
-            <div> </a>
-            </div>`;
+    productContainer.innerHTML += `<div>
+                                    <div  class="product">
+                                    <a href="details.html?id=${product.id}">
+ 
+                                    <img src="${product.images[0].src}" class="product-image" alt="${product.name}">
+                                   </a>
+                                   <div class="product-detials">
+                                    <h2>${product.name}</h2>
+                                    <p class="pro-price">${product.price_html}</hp>
+                                   </div>
+                                    <button data-product="${product.id}" class="cta-buy">Add To Cart</button>
+                                   </div>`;
   });
 }
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach(function (button) {
+  button.onclick = function (event) {
+    console.log(event.target.dataset.product);
+  };
+});
