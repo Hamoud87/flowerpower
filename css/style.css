@@ -65,7 +65,7 @@ nav a:hover,
   display: none;
 }
 .shop-cart {
-  display: block;
+  display: none;
   position: fixed;
   top: 40px;
   right: 30px;
